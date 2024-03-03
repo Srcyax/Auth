@@ -1,9 +1,48 @@
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 export async function POST(req: NextRequest) {
 	const body = await req.json();
-
 	const { username, password } = body;
 
-	return NextResponse.json("OK");
+	const prisma = new PrismaClient();
+
+	try {
+		const passwordHash = await bcrypt.hash(password, 10);
+
+		const user = await prisma.user.create({
+			data: {
+				username,
+				password: passwordHash as string,
+			},
+		});
+
+		const token = jwt.sign(
+			{ username: user.username, id: user.id },
+			process.env.JWT_SECRET as string,
+			{
+				expiresIn: "2h",
+			}
+		);
+
+		cookies().set("token", token, {
+			maxAge: 60 * 120,
+			secure: false,
+			httpOnly: true,
+		});
+
+		return NextResponse.json({ message: "sucess" });
+	} catch (err) {
+		if (err instanceof PrismaClientKnownRequestError && err.code === "P2002") {
+			return NextResponse.json({ error: "This user is already registered" }, { status: 400 });
+		}
+
+		return NextResponse.json({ error: "Error registering user" }, { status: 400 });
+	} finally {
+		await prisma.$disconnect();
+	}
 }

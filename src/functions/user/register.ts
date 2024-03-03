@@ -13,6 +13,6 @@ export async function Register(user: User) {
 		})
 		.then((res) => {})
 		.catch((error) => {
-			console.log(error);
+			console.log(error.response.data.error);
 		});
 }
