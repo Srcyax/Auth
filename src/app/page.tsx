@@ -15,7 +15,7 @@ export default function Home() {
 				<p className="leading-relaxed">Your Ultimate Chatting Destination</p>
 			</div>
 			<Button
-				onClick={() => router.push("/login")}
+				onClick={() => router.push("/dashboard")}
 				className="flex gap-2 hover:gap-4 transition-all duration-200"
 			>
 				Let&apos;s chat

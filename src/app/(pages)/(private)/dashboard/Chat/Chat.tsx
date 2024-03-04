@@ -3,21 +3,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import axios from "axios";
 import { Send } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Comments = {
 	id: number;
 	comment: string;
 	authorId: number;
+	author: string;
 };
 
-export function ChatBoard({ username }: { username: string }) {
+export function ChatBoard() {
 	const [comment, setComment] = useState<string | null>("");
 	const [comments, getComments] = useState<Comments[]>();
 
 	const queryClient = useQueryClient();
+	const router = useRouter();
 
 	const { data } = useQuery({
 		queryKey: ["comments"],
@@ -54,9 +58,40 @@ export function ChatBoard({ username }: { username: string }) {
 								<div className="flex gap-2 items-center">
 									<Avatar>
 										<AvatarImage src="" alt="@shadcn" />
-										<AvatarFallback className="text-[20px]">{username.charAt(0)}</AvatarFallback>
+										<AvatarFallback className="text-[20px] bg-orange-200">
+											{chat.author.charAt(0)}
+										</AvatarFallback>
 									</Avatar>
-									<h1 className="text-[15px]">{chat.comment}</h1>
+									<div className="flex flex-col justify-center">
+										<HoverCard>
+											<HoverCardTrigger asChild>
+												<h1
+													onClick={() => {
+														router.push(`/user/profile/${chat.authorId}`);
+													}}
+													className="text-[15px] font-medium hover:underline hover:cursor-pointer"
+												>
+													{chat.author}
+												</h1>
+											</HoverCardTrigger>
+											<HoverCardContent className="w-60">
+												<div className="flex items-center space-x-4">
+													<Avatar>
+														<AvatarImage src="" alt="@shadcn" />
+														<AvatarFallback className="text-[20px] bg-orange-200">
+															{chat.author.charAt(0)}
+														</AvatarFallback>
+													</Avatar>
+													<div className="overflow-hidden h-14">
+														<h1 className="text-[15px] font-medium">{chat.author}</h1>
+														<p className="truncate">{chat.author}</p>
+													</div>
+												</div>
+											</HoverCardContent>
+										</HoverCard>
+
+										<h1 className="text-[13px] text-zinc-700">{chat.comment}</h1>
+									</div>
 								</div>
 							</div>
 						))}

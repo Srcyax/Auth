@@ -15,9 +15,9 @@ export async function POST(req: NextRequest) {
 	}
 
 	try {
-		const { id } = (await jwt.decode(token.value)) as JwtPayload;
+		const user = (await jwt.decode(token.value)) as JwtPayload;
 
-		if (!id) {
+		if (!user.id) {
 			return NextResponse.json({ error: "Not allowed" }, { status: 401 });
 		}
 
@@ -35,7 +35,8 @@ export async function POST(req: NextRequest) {
 		await prisma.comment.create({
 			data: {
 				comment,
-				authorId: id,
+				authorId: user.id,
+				author: user.username,
 			},
 		});
 

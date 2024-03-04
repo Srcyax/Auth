@@ -34,14 +34,15 @@ export default function Dashboard() {
 		return <></>;
 	}
 
-	const { username } = data?.user;
-
-	const Chats = ["Hello", "Whats up", "Test"];
+	const { username, about } = data?.user;
+	console.log(data?.user);
 
 	return (
 		<div>
 			<header className="flex justify-between items-center p-5 shadow-xl">
-				<h1 className="text-3xl font-bold">Chatz</h1>
+				<h1 className="text-3xl font-bold">
+					Chat<strong className="text-orange-400">zy</strong>
+				</h1>
 				<Avatar>
 					<AvatarImage src="" alt="@shadcn" />
 					<AvatarFallback className="text-[20px]">{username.charAt(0)}</AvatarFallback>
@@ -49,8 +50,7 @@ export default function Dashboard() {
 			</header>
 			<main className="m-10">
 				<div className="flex flex-col gap-4 w-1/2">
-					<h4 className="text-sm font-medium leading-none">Chat</h4>
-					<ChatBoard username={username} />
+					<ChatBoard username={username} about={about} />
 				</div>
 			</main>
 		</div>

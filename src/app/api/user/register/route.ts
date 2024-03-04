@@ -17,6 +17,7 @@ export async function POST(req: NextRequest) {
 			data: {
 				username,
 				password: passwordHash as string,
+				about: "Hello there 👋",
 			},
 		});
 
