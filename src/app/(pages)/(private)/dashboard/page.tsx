@@ -31,6 +31,21 @@ export default function Dashboard() {
 
 	const { username } = data?.user;
 
+	const Chats = [
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+		"Hello",
+	];
+
 	return (
 		<div>
 			<header className="flex justify-between items-center p-5 shadow-xl">
@@ -42,9 +57,20 @@ export default function Dashboard() {
 			</header>
 			<main className="m-10">
 				<div className="flex flex-col gap-4 w-1/2">
-					<ScrollArea className="h-72 rounded-md border shadow-xl">
+					<h4 className="text-sm font-medium leading-none">Chat</h4>
+					<ScrollArea className="h-72 rounded-md border shadow-inner">
 						<div className="p-4">
-							<h4 className="mb-4 text-sm font-medium leading-none">Chat</h4>
+							{Chats.map((chat, index) => (
+								<div key={index} className="my-4">
+									<div className="flex gap-2 items-center">
+										<Avatar>
+											<AvatarImage src="" alt="@shadcn" />
+											<AvatarFallback className="text-[20px]">{username.charAt(0)}</AvatarFallback>
+										</Avatar>
+										<h1 className="text-[15px]">{chat}</h1>
+									</div>
+								</div>
+							))}
 						</div>
 					</ScrollArea>
 					<div className="flex gap-4">

@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
-import { cookies } from "next/headers";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { GenerateTokenAuth } from "@/functions/user/authToken";
+import { GenerateAuthToken } from "@/functions/user/authToken";
 
 export async function POST(req: NextRequest) {
 	const body = await req.json();
@@ -22,7 +20,7 @@ export async function POST(req: NextRequest) {
 			},
 		});
 
-		await GenerateTokenAuth(user);
+		await GenerateAuthToken(user);
 
 		return NextResponse.json({ message: "sucess" });
 	} catch (err) {
