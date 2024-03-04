@@ -18,3 +18,9 @@ model User {
   username    String   @unique
   password    String?
 }
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  comment     String   
+  authorId    Int
+}

@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Send } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { ChatBoard } from "./Chat/Chat";
 
 export default function Dashboard() {
 	const router = useRouter();
@@ -29,22 +30,13 @@ export default function Dashboard() {
 		return <></>;
 	}
 
+	if (isError) {
+		return <></>;
+	}
+
 	const { username } = data?.user;
 
-	const Chats = [
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-		"Hello",
-	];
+	const Chats = ["Hello", "Whats up", "Test"];
 
 	return (
 		<div>
@@ -58,27 +50,7 @@ export default function Dashboard() {
 			<main className="m-10">
 				<div className="flex flex-col gap-4 w-1/2">
 					<h4 className="text-sm font-medium leading-none">Chat</h4>
-					<ScrollArea className="h-72 rounded-md border shadow-inner">
-						<div className="p-4">
-							{Chats.map((chat, index) => (
-								<div key={index} className="my-4">
-									<div className="flex gap-2 items-center">
-										<Avatar>
-											<AvatarImage src="" alt="@shadcn" />
-											<AvatarFallback className="text-[20px]">{username.charAt(0)}</AvatarFallback>
-										</Avatar>
-										<h1 className="text-[15px]">{chat}</h1>
-									</div>
-								</div>
-							))}
-						</div>
-					</ScrollArea>
-					<div className="flex gap-4">
-						<Input className="shadow-xl" type="text" placeholder="Type something..." />
-						<Button>
-							<Send width={20} />
-						</Button>
-					</div>
+					<ChatBoard username={username} />
 				</div>
 			</main>
 		</div>
