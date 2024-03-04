@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
+import { TokenAuth } from "@/functions/user/authToken";
 
 export async function POST(req: NextRequest) {
 	const body = await req.json();
@@ -21,19 +22,7 @@ export async function POST(req: NextRequest) {
 			},
 		});
 
-		const token = jwt.sign(
-			{ username: user.username, id: user.id },
-			process.env.JWT_SECRET as string,
-			{
-				expiresIn: "2h",
-			}
-		);
-
-		cookies().set("token", token, {
-			maxAge: 60 * 120,
-			secure: false,
-			httpOnly: true,
-		});
+		await TokenAuth(user);
 
 		return NextResponse.json({ message: "sucess" });
 	} catch (err) {

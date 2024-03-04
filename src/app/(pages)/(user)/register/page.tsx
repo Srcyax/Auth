@@ -11,14 +11,37 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Register } from "@/functions/user/register";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
 
 export default function Home() {
-	const { register, handleSubmit } = useForm();
+	const schema = z.object({
+		username: z.string().min(3).max(20),
+		password: z.string().min(6),
+	});
+
+	const { register, handleSubmit } = useForm({
+		resolver: zodResolver(schema),
+	});
+
+	const router = useRouter();
 
 	function onSubmit(data: any) {
-		Register(data);
+		axios
+			.post("api/user/register", {
+				username: data.username,
+				password: data.password,
+			})
+			.then(() => {
+				router.push("/");
+			})
+			.catch((error) => {
+				toast.error(error.response.data.error);
+			});
 	}
 
 	return (
