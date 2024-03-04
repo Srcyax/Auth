@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { Prisma, PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
-import { TokenAuth } from "@/functions/user/authToken";
+import { GenerateTokenAuth } from "@/functions/user/authToken";
 
 export async function POST(req: NextRequest) {
 	const body = await req.json();
@@ -28,7 +28,7 @@ export async function POST(req: NextRequest) {
 			return NextResponse.json({ error: "Wrong password" }, { status: 500 });
 		}
 
-		await TokenAuth(user);
+		await GenerateTokenAuth(user);
 
 		return NextResponse.json({ message: "sucess" });
 	} catch (error) {

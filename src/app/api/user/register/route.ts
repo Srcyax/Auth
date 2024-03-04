@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
-import { TokenAuth } from "@/functions/user/authToken";
+import { GenerateTokenAuth } from "@/functions/user/authToken";
 
 export async function POST(req: NextRequest) {
 	const body = await req.json();
@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
 			},
 		});
 
-		await TokenAuth(user);
+		await GenerateTokenAuth(user);
 
 		return NextResponse.json({ message: "sucess" });
 	} catch (err) {

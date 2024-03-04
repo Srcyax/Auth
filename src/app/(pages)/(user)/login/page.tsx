@@ -21,7 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 export default function Home() {
 	const schema = z.object({
 		username: z.string().min(3).max(20),
-		password: z.string().min(6),
+		password: z.string().min(4),
 	});
 
 	const { register, handleSubmit } = useForm({
@@ -39,7 +39,7 @@ export default function Home() {
 				password: validatedData.password,
 			})
 			.then(() => {
-				router.push("/");
+				router.push("/dashboard");
 			})
 			.catch((error) => {
 				toast.error(error.response.data.error);

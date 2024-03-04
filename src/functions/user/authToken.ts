@@ -1,12 +1,13 @@
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
 type User = {
 	id: number;
 	username: string;
 };
 
-export async function TokenAuth(user: User) {
+export async function GenerateTokenAuth(user: User) {
 	const token = jwt.sign(
 		{ username: user.username, id: user.id },
 		process.env.JWT_SECRET as string,
