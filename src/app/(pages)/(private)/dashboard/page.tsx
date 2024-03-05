@@ -10,6 +10,7 @@ import axios from "axios";
 import { Send } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { ChatBoard } from "./Chat/Chat";
+import Link from "next/link";
 
 export default function Dashboard() {
 	const router = useRouter();
@@ -35,22 +36,23 @@ export default function Dashboard() {
 	}
 
 	const { username, about } = data?.user;
-	console.log(data?.user);
 
 	return (
 		<div>
 			<header className="flex justify-between items-center p-5 shadow-xl">
-				<h1 className="text-3xl font-bold">
+				<Link href="/" className="text-3xl font-bold">
 					Chat<strong className="text-orange-400">zy</strong>
-				</h1>
+				</Link>
 				<Avatar>
 					<AvatarImage src="" alt="@shadcn" />
-					<AvatarFallback className="text-[20px]">{username.charAt(0)}</AvatarFallback>
+					<AvatarFallback className="text-[20px]">
+						{username.charAt(0)}
+					</AvatarFallback>
 				</Avatar>
 			</header>
 			<main className="m-10">
 				<div className="flex flex-col gap-4 w-1/2">
-					<ChatBoard username={username} about={about} />
+					<ChatBoard />
 				</div>
 			</main>
 		</div>

@@ -18,11 +18,17 @@ model User {
   username    String   @unique
   password    String?
   about       String
+  role        Role?
 }
 
 model Comment {
   id          Int       @id @default(autoincrement())
   comment     String   
   author      String
-  authorId    Int       @unique
+  authorId    Int       
+}
+
+enum Role {
+  USER
+  ADMIN
 }
