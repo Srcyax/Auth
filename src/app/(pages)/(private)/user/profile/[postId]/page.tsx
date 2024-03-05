@@ -48,7 +48,9 @@ export default function Page({ params }: any) {
 						) : (
 							<Avatar className="shadow-xl w-20 h-20">
 								<AvatarImage src="" />
-								<AvatarFallback className="text-2xl">{data?.userProfile.username.charAt(0)}</AvatarFallback>
+								<AvatarFallback className="text-2xl">
+									{data?.userProfile.username.charAt(0)}
+								</AvatarFallback>
 							</Avatar>
 						)}
 						<div className="flex flex-col gap-2 items-center">
@@ -60,6 +62,9 @@ export default function Page({ params }: any) {
 							) : (
 								<div className="flex flex-col gap-2 items-center">
 									<h1>{data?.userProfile?.username}</h1>
+									<div className="px-5 bg-zinc-800 text-white rounded-sm">
+										<h1>{data?.userProfile.role}</h1>
+									</div>
 									<h1>id: {data?.userProfile?.id}</h1>
 								</div>
 							)}

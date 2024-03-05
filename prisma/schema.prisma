@@ -18,7 +18,7 @@ model User {
   username    String   @unique
   password    String?
   about       String
-  role        Role?
+  role        Role?   @default(registered)
 }
 
 model Comment {
@@ -29,6 +29,6 @@ model Comment {
 }
 
 enum Role {
-  USER
-  ADMIN
+  registered
+  administrator
 }
